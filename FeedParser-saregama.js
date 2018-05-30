@@ -45,19 +45,35 @@ feedparser.on('readable', function () {
       var pubdate=item.pubdate;
       var date=item.date;
       console.log("Title: "+title);
-     
+
 var dt = new Date();
 var dateStr=dt.getFullYear()+"-"+(dt.getMonth()+1)+"-"+dt.getDate()+"T"+dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds()+"."+dt.getMilliseconds();
 
 var tags="";
+var serialname="";
+var episode="";
+var serialdate="";
+
+  if(item.title.includes("Episode")){
+    var titleArr=item.title.split(" ");
+    var stindex=titleArr.indexOf("Episode");
+    episode=titleArr[stindex+1];
+    if(!item.title.includes("Promo")){
+      serialdate=titleArr[stindex+2]+""+titleArr[stindex+3]+""+titleArr[stindex+4];
+    }
+
+  }
   if(item.title.includes("CHANDRALEKHA")){
     tags="CHANDRALEKHA"+","+"tamil serial"+"suntv";
+    serialname="chandralekha";
   }
   if(item.title.includes("VALLI")){
     tags="VALLI"+","+"tamil serial"+",+"+"suntv";
+    serialname="valli";
   }
   if(item.title.includes("ROJA")){
     tags="ROJA"+","+"tamil serial"+",+"+"suntv";
+    serialname="roja";
   }
 
 
@@ -72,7 +88,11 @@ var tags="";
           postobject.publishedon=dateStr;
           postobject.category="Tv Serial";
           postobject.tags=tags;
-         
+          postobject.serialname=serialname;
+          postobject.episode=episode;
+          postobject.serialdate=serialdate;
+
+
           MongoClient.connect(url, function(err, MongoClient) {
             if (err) throw err;
               var db = MongoClient.db("onlinetamilportal");

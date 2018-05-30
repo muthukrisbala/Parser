@@ -74,12 +74,29 @@ var dt = new Date();
 var dateStr=dt.getFullYear()+"-"+(dt.getMonth()+1)+"-"+dt.getDate()+"T"+dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds()+"."+dt.getMilliseconds();
 //console.log("dateSTR:"+dateStr);
 var tags="";
-  if(item.title.startsWith("Priyamanaval")){
-    tags="Priyamanaval"+","+"tamil serial"+"suntv";
+
+var serialname="";
+var episode="";
+var serialdate="";
+
+  if(item.title.includes("Episode")){
+    var titleArr=item.title.split(" ");
+    var stindex=titleArr.indexOf("Episode");
+    episode=titleArr[stindex+1];
+    if(!item.title.includes("Promo")){
+      serialdate=titleArr[stindex+2]+""+titleArr[stindex+3]+""+titleArr[stindex+4];
+    }
+
   }
-  if(item.title.startsWith("Naayagi")){
-    tags="Naayagi"+","+"tamil serial"+",+"+"suntv";
+  if(item.title.includes("Priyamanaval")){
+    tags="Priyamanaval"+","+"tamil serial,"+"suntv";
+    serialname="Priyamanaval";
   }
+  if(item.title.includes("Naayagi")){
+    tags="Naayagi"+","+"tamil serial"+","+"suntv";
+    serialname="Naayagi";
+  }
+  
           var postobject={};
           postobject.title=title;
           postobject.description=title;
@@ -91,6 +108,9 @@ var tags="";
           postobject.publishedon=dateStr;
           postobject.category="Tv Serial";
           postobject.tags=tags;
+          postobject.serialname=serialname;
+          postobject.episode=episode;
+          postobject.serialdate=serialdate;
           //console.log("Before Object print");
         //  console.log("Object: "+postobject);
 

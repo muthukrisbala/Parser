@@ -45,17 +45,34 @@ feedparser.on('readable', function () {
       var pubdate=item.pubdate;
       var date=item.date;
       console.log("Title: "+title);
-    
+
 var dt = new Date();
 var dateStr=dt.getFullYear()+"-"+(dt.getMonth()+1)+"-"+dt.getDate()+"T"+dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds()+"."+dt.getMilliseconds();
 
 var tags="";
-  if(item.title.startsWith("Azhagu")){
-    tags="Azhagu"+","+"tamil serial"+"suntv";
-  }
-  if(item.title.startsWith("Kalyanaparisu")){
-    tags="Kalyanaparisu"+","+"tamil serial"+",+"+"suntv";
-  }
+
+
+  var serialname="";
+  var episode="";
+  var serialdate="";
+
+    if(item.title.includes("Episode")){
+      var titleArr=item.title.split(" ");
+      var stindex=titleArr.indexOf("Episode");
+      episode=titleArr[stindex+1];
+      if(!item.title.includes("Promo")){
+        serialdate=titleArr[stindex+2]+""+titleArr[stindex+3]+""+titleArr[stindex+4];
+      }
+
+    }
+    if(item.title.includes("Azhagu")){
+      tags="Azhagu"+","+"tamil serial,"+"suntv";
+      serialname="Azhagu";
+    }
+    if(item.title.includes("Kalyanaparisu")){
+      tags="Kalyanaparisu"+","+"tamil serial"+","+"suntv";
+      serialname="Kalyanaparisu";
+    }
 
           var postobject={};
           postobject.title=title;
@@ -68,16 +85,19 @@ var tags="";
           postobject.publishedon=dateStr;
           postobject.category="Tv Serial";
           postobject.tags=tags;
-     
+          postobject.serialname=serialname;
+          postobject.episode=episode;
+          postobject.serialdate=serialdate;
+
           MongoClient.connect(url, function(err, MongoClient) {
             if (err) throw err;
               var db = MongoClient.db("onlinetamilportal");
-              
+
               var regex = new RegExp(["^", videoid, "$"].join(""), "i");
 
               db.collection("post").find({"content":regex}).count( function(err, result) {
                 if (err) throw err;
-                  
+
                   if(result==0){
 
                     db.collection("post").insert(postobject,function(err, result) {
