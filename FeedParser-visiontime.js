@@ -45,15 +45,10 @@ feedparser.on('readable', function () {
       var pubdate=item.pubdate;
       var date=item.date;
       console.log("Title: "+title);
-      console.log("Link: "+link);
-      console.log("Video ID: "+videoid);
-      console.log("pubdate: "+pubdate);
-      console.log("date: "+date);
-console.log("Before Object construction");
-
+    
 var dt = new Date();
 var dateStr=dt.getFullYear()+"-"+(dt.getMonth()+1)+"-"+dt.getDate()+"T"+dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds()+"."+dt.getMilliseconds();
-console.log("dateSTR:"+dateStr);
+
 var tags="";
   if(item.title.startsWith("Azhagu")){
     tags="Azhagu"+","+"tamil serial"+"suntv";
@@ -73,28 +68,21 @@ var tags="";
           postobject.publishedon=dateStr;
           postobject.category="Tv Serial";
           postobject.tags=tags;
-          console.log("Before Object print");
-          console.log("Object: "+postobject);
-
-
-
-
-
-
+     
           MongoClient.connect(url, function(err, MongoClient) {
             if (err) throw err;
               var db = MongoClient.db("onlinetamilportal");
-              console.log("VVideoid: "+videoid);
+              
               var regex = new RegExp(["^", videoid, "$"].join(""), "i");
 
               db.collection("post").find({"content":regex}).count( function(err, result) {
                 if (err) throw err;
-                  console.log("Result1: "+result);
+                  
                   if(result==0){
 
                     db.collection("post").insert(postobject,function(err, result) {
                       if (err) throw err;
-                      console.log("Success");
+                      console.log(postobject.title+"Success");
 
                     });
 
