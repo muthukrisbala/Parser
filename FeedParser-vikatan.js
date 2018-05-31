@@ -109,7 +109,7 @@ var serialdate="";
           postobject.category="Tv Serial";
           postobject.tags=tags;
           postobject.serialname=serialname;
-          postobject.episode=episode;
+          postobject.episode=parseInt(episode);
           postobject.serialdate=serialdate;
           //console.log("Before Object print");
         //  console.log("Object: "+postobject);
