@@ -36,6 +36,7 @@ feedparser.on('readable', function () {
       var title=item.title;
       title=title.replace(/ \| /g," ");
       title=title.replace(/ - /g," ");
+	  title=title.replace(/-/g," ");
       //title=title.replace(/Home Movie Makers/g,"");
       title=title.trim();
 
