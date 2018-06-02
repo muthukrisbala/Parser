@@ -117,11 +117,11 @@ var serialdate="";
     //}
   }
   
-process.exit();
+
 
   
 });
 
 
 
-
+process.exit();
