@@ -116,4 +116,13 @@ var serialdate="";
               });
     //}
   }
+  
+  feedparser.on('end', function () {
+    console.log('feedparser end event');
 });
+  
+});
+
+
+
+
