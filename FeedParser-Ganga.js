@@ -1,7 +1,7 @@
 var FeedParser = require('feedparser');
 var request = require('request'); // for fetching the feed
 
-var req = request('https://www.youtube.com/feeds/videos.xml?channel_id=UCRhn5l_2zvcMQA0RI2f010g');
+var req = request('https://www.youtube.com/feeds/videos.xml?channel_id=UCrBmeh3SbytxO2pCdP2lN4A');
 var feedparser = new FeedParser();
 
 req.on('error', function (error) {
@@ -36,7 +36,7 @@ feedparser.on('readable', function () {
       var title=item.title;
       title=title.replace(/ \| /g," ");
       title=title.replace(/ - /g," ");
-      //title=title.replace(/Vision Time/g,"");
+      title=title.replace(/Home Movie Makers/g,"");
       title=title.trim();
 
       var link=item.link;
@@ -63,18 +63,11 @@ var serialdate="";
     }
 
   }
-  if(item.title.includes("CHANDRALEKHA")){
-    tags="CHANDRALEKHA"+","+"tamil serial"+"suntv";
-    serialname="chandralekha";
+  if(item.title.includes("Ganga")){
+    tags="Ganga"+","+"tamil serial"+"suntv";
+    serialname="Ganga";
   }
-  if(item.title.includes("VALLI")){
-    tags="VALLI"+","+"tamil serial"+",+"+"suntv";
-    serialname="valli";
-  }
-  if(item.title.includes("ROJA")){
-    tags="ROJA"+","+"tamil serial"+",+"+"suntv";
-    serialname="roja";
-  }
+  
 
 
           var postobject={};
